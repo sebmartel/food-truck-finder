@@ -36,11 +36,11 @@ public static void renderToConsole(JSONArray trucks, Console console, int pageSi
 
 # How do we turn this into proper web service?
 
-Our webservice may need to provide a paginated API with parameterized date to 
-facilitate consistent paging.
+Our webservice may need to provide a paginated API with parameterized datetiem
+to facilitate consistent paging.
 
 ```
-GET /trucks?date=<ISO 8601 date>&offset=x&limit=y
+GET /trucks?date=<ISO 8601 datetime>&offset=x&limit=y
 ```
 
 Our nicely formatted output could be returned as content-type text/plain. A 

@@ -43,7 +43,7 @@ public class FoodTruckFinder {
 		HttpResponse<JsonNode> asJson = Unirest
 				.get(resource)
 				.queryString("$select", "applicant,location")
-				.queryString("$where", String.format( "start24<='%1$s' AND end24>'%1$s' AND dayofweekstr='%2$s'", time24, day))
+				.queryString("$where", String.format( "start24<='%1$s' AND end24>'%1$s' AND dayofweekstr='%2$s'", time24, day)) // lexicographical compare of 24h format is my hack of the day.
 				.queryString("$order", "applicant ASC")
 				.asJson();
 		return asJson.getBody().getArray();

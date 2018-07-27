@@ -70,10 +70,14 @@ call to the origin to retrieve the current set of trucks and render the requeste
 
 ## Scaling
 
-Socrata allows 1000req/hour with a developer key. To function properly, our 
-webservice needs to operate within that limit. Working to our advantage is the
-proper set of cache control headers provided by the Socrata API. This enables
-our solution to use standard proxy configurations as part of our solution.
+Socrata allows 1000req/hour with a developer key. Furthermore, I observe slow
+response times (~seconds) from the origin API.  The response times are too slow
+for multiple origin calls as part of a paginated API and the request limit
+requires further engineering to enable any meaningful scale.
+
+Working to our advantage is the proper set of cache control headers provided by 
+the Socrata API. This enables our solution to use standard proxy configurations 
+as part of our solution.
 
 Specifically here, I would recommend a setup allowing the proxy to return
 stale data in order to prevent simultaneous requests to our webservice to spike
@@ -90,9 +94,10 @@ A final option would be to eschew filtering and ordering at the origin and
 instead move those operations within the webservice. Our webservice could
 periodically poll the origin for an update to the data set and atomically swap
 it in the webservice when it has changed. By leveraging the ETAG, this is a very
-efficient operation, and unlike all previous in-memory LRU approach, the 
-performance of every GET operation to our service is independent of the 
-performance at the origin (The proxy solution can also provide this guarantee).
+efficient operation, and unlike all previous approaches, the  performance of 
+every GET operation to our service is independent of the performance at the 
+origin.
+
 
 
 
